@@ -1,0 +1,6 @@
+### Test rate limiter
+GET http://localhost:8080/test
+X-User-Id: 123e4567-e89b-12d3-a456-426614174000
+
+### Test missing header
+GET http://localhost:8080/test

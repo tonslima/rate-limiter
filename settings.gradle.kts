@@ -4,3 +4,4 @@ plugins {
 rootProject.name = "rate-limiter"
 
 include("core")
+include("spring")

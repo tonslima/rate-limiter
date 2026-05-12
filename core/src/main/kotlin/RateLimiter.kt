@@ -11,10 +11,11 @@ class RateLimiter(
     require(refillRate > 0 ) { "refillRate must be positive" }
   }
 
-  private val userMap: ConcurrentMap<UUID, TokenBucket> = ConcurrentHashMap()
+  private val userMap: ConcurrentMap<String, TokenBucket> = ConcurrentHashMap()
 
-  fun isAllowed(userId: UUID): Boolean {
-    val tokenBucket = userMap.getOrPut(userId) { TokenBucket(capacity, refillRate) }
+  fun isAllowed(userId: UUID, endpoint: String): Boolean {
+    val key = "$userId::$endpoint"
+    val tokenBucket = userMap.getOrPut(key) { TokenBucket(capacity, refillRate) }
 
     return tokenBucket.allowRequest()
   }

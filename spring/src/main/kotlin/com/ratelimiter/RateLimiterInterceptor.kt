@@ -14,7 +14,9 @@ class RateLimiterInterceptor(val limiter: RateLimiter) : HandlerInterceptor {
       return false
     }
 
-    val result = limiter.isAllowed(UUID.fromString(userId))
+    val endpoint = request.requestURI
+    println(endpoint)
+    val result = limiter.isAllowed(UUID.fromString(userId), endpoint)
 
     if (!result) {
       response.sendError(429, "Too Many Requests")

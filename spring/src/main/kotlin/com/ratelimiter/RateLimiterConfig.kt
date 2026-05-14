@@ -1,5 +1,6 @@
 package com.ratelimiter
 
+import BucketStore
 import RateLimiter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -8,12 +9,12 @@ import org.springframework.context.annotation.Configuration
 class RateLimiterConfig {
 
   @Bean
-  fun rateLimiter(): RateLimiter {
-    return RateLimiter(3, 0.57)
+  fun rateLimiter(store: BucketStore): RateLimiter {
+    return RateLimiter(3, 0.57, store)
   }
 
   @Bean
-  fun rateLimiterInterceptor(): RateLimiterInterceptor {
-    return RateLimiterInterceptor(rateLimiter())
+  fun rateLimiterInterceptor(rateLimiter: RateLimiter): RateLimiterInterceptor {
+    return RateLimiterInterceptor(rateLimiter)
   }
 }

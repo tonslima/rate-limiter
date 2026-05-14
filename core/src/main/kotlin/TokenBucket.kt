@@ -1,26 +1,29 @@
 class TokenBucket(
   val capacity: Long,
-  val refillRate: Double
+  val refillRate: Double,
+  val key: String,
+  val store: BucketStore
 ) {
-  private var tokens: Long = capacity
-  private var lastRefill: Long = System.currentTimeMillis()
 
   @Synchronized
   fun allowRequest(): Boolean {
-    refill()
+    var tokens = refillTokens()
 
     if (tokens > 0) {
       tokens -= 1
+      store.save(key, tokens, System.currentTimeMillis())
       return true
     }
     return false
   }
 
-  private fun refill() {
+  private fun refillTokens(): Long {
+    var lastRefill = store.getLastRefill(key)
+    var tokens = store.getTokens(key)
+
     val elapsedSeconds = (System.currentTimeMillis() - lastRefill) / 1000.0
     val tokensToAdd = elapsedSeconds * refillRate
 
-    tokens = minOf(capacity, tokens + tokensToAdd.toLong())
-    lastRefill = System.currentTimeMillis()
+    return minOf(capacity, tokens + tokensToAdd.toLong())
   }
 }

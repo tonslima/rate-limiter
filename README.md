@@ -43,7 +43,8 @@ Two classes make up the core:
 
 ## Roadmap
 
-- [ ] Spring Boot module with `HandlerInterceptor`
-- [ ] Rate limiting per user + endpoint
-- [ ] Redis-backed state for distributed environments
+- [X] Spring Boot module with `HandlerInterceptor`
+- [X] Rate limiting per user + endpoint
+- [X] Redis-backed state for distributed environments
+- [ ] Per-endpoint capacity and refill rate configuration
 - [ ] Support for multiple algorithms (Fixed Window, Sliding Window)
